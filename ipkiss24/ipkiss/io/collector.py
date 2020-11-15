@@ -67,5 +67,13 @@ class StreamStringCollector(__StreamCollector__):
 
 class StreamA2BHexCollector(__StreamCollector__):
     def __iadd__(self, item_list):
-        self.o_stream.write(a2b_hex("".join(item_list)))
+        # print("ITEM_LIST")
+        # print(item_list)
+        item_list_str = "".join(item_list)
+        print("item_list_str")
+        print(item_list_str)
+        hex_str = a2b_hex(item_list_str)
+        print("hex_str")
+        print(hex_str)
+        self.o_stream.write(hex_str)
         return self

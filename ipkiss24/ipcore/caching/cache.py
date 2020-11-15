@@ -28,6 +28,8 @@ def cache():
     """caching decorator: caches the result of a function called on an object"""
     def _cache(function):
         def __cache(*args, **kw):
+            print("At cache when function.func_name: ")
+            print(function.func_name)
             key = hashlib.sha1(function.func_name).hexdigest()
             obj = args[0]
             if not hasattr(obj, "__IPCORE_CACHE__"):

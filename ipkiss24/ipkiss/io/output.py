@@ -62,6 +62,7 @@ class BasicOutput(StrongPropertyInitializer):
 
     def str(self, item):
         self.collect(item)
+        print("At past BasicOutput.collect")
         return self.collector.out_str()
 
     def list(self, item):
@@ -77,7 +78,8 @@ class __OutputBasic__(BasicOutput):
         super(__OutputBasic__, self).__init__(o_stream = o_stream, **kwargs)
         self.__collect_method_dict__ = {}
                 
-    def collect(self, item,  **kwargs):       
+    def collect(self, item,  **kwargs):
+        print("It is me")      
         self.do_collect(item, **kwargs)
         return 
     

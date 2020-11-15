@@ -106,6 +106,7 @@ class OutputGdsii(OutputBasic):
                          __str_record__(gds_records.LibName, __hex_text__(library.name)),
                          __str_record__(gds_records.Units, __hex_float__(self.library.grid/self.library.unit) + __hex_float__(self.library.grid))
                  ]
+                print("FINISHED HEADERS")
                 return
 
         def __collect_library_footer__(self):
@@ -273,6 +274,8 @@ class OutputGdsii(OutputBasic):
                         ret_data = ["%s%s" % (__hex_int4__(c0) , __hex_int4__(c1)) for c0,c1 in db_value_coordinates]
                 else: 
                         ret_data = ["%s%s" % (__hex_int4__(self.__db_value__(c[0])) , __hex_int4__(self.__db_value__(c[1]))) for c in coords]
+                print("ret_data")
+                print(ret_data)
                 return __str_record__(gds_records.XY, "".join(ret_data))
                         
                 
@@ -350,9 +353,22 @@ class MemoryOutputGdsii(OutputGdsii):
 #Generate record
 def __str_record__(record_type, hex_data=""):
         length = len(hex_data)/2 + 4
-        return ''.join([__hex_int2__(length), __hex_int2__(record_type), hex_data]) #fastest string concatenation
+
+        raw_array = [\
+                __hex_int2__(length), \
+                __hex_int2__(record_type),\
+                hex_data]
+        # print("raw_array")
+        # #print(raw_array)
+
+        string_record = ''.join(raw_array) #fastest string concatenation
+        print("string_record")
+        print(string_record)
+        return string_record
 
 def __hex_int2__ (number):
+        # print("number")
+        # print(number)
         return __hex_text__(pack(">H",number))
 
 def __hex_int4__ (number):
@@ -376,12 +392,20 @@ def __hex_float__(number):
                         B1 += 1
                 S3 = (inumber%281474976710656)/4294967296L
                 L4 = inumber%4294967296L
+        # print("B1: " + str(B1))
+        # print("B2: " + str(B2))
+        # print("S3: " + str(S3))
+        # print("L4: " + str(L4))
         return __hex_text__(pack(">BBHL",B1, B2, S3, L4))
 
 def __hex_text__ (text):
+        # print("text")
+        # print(text)
         t = b2a_hex(text)
         if not len(t)%4 == 0:
                 t += "00"
+        # print("end_t")
+        # print(t)
         return t
 
 #Create the date strings
